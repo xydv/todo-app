@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./styles.css";
 const Todos = () => {
   const [text, setText] = useState("");
   const [todos, setTodos] = useState([]);
@@ -62,7 +63,7 @@ const Todos = () => {
     <>
       <div className="navbar bg-base-100 shadow-xl rounded-box">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">Todo App</a>
+          <a className="btn btn-ghost normal-case text-xl color-info">Todo App</a>
         </div>
         <div className="flex-none">
           <div className="dropdown dropdown-end">
@@ -75,18 +76,18 @@ const Todos = () => {
               <div className="card-body">
                 <span className="font-bold text-lg text-center">{todos.length} Items</span>
                 <div className="card-actions">
-                  <button onClick={clearStorage} className="btn btn-primary btn-block">Clear All</button>
+                  <button onClick={clearStorage} className="btn btn-error btn-block">Clear All</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="divider">Add</div>
+      <div className="divider"></div>
       <div className="container mx-auto px-4">
-        <input onKeyPress={keyPressed} onChange={handleChange} value={text} type="text" placeholder="Add A Todo And Press Enter To Add To List!!!" className="input input-bordered w-full" />
+        <input onKeyPress={keyPressed} onChange={handleChange} value={text} type="text" placeholder="Add A Todo And Press Enter To Add To List!!!" className="input input-bordered input-info w-full" />
       </div>
-      <div className="divider">Todos</div>
+      <div className="divider"></div>
       <div className="container mx-auto">
         {todos.map((element) => {
           return (
