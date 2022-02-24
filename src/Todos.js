@@ -39,7 +39,7 @@ const Todos = () => {
     // let dindex = todoss.findIndex(e => e.ts == id);
     // console.log(dindex)
     // Set Empty Object
-    todoss = todoss.filter(item => item.ts != id)
+    todoss = todoss.filter(item => item.ts !== id)
     localStorage.setItem("todos", JSON.stringify(todoss));
     // Change state For Re-Render
     setState(state + 1);
@@ -47,7 +47,7 @@ const Todos = () => {
   // Done
   const doneTodo = (id) => {
     // Get Index By Id
-    let tindex = todoss.findIndex(e => e.ts == id);
+    let tindex = todoss.findIndex(e => e.ts === id);
     // Change Done Status
     if (todoss[tindex].done) {
       todoss[tindex].done = false;
@@ -63,7 +63,7 @@ const Todos = () => {
     <>
       <div className="navbar bg-base-100 shadow-xl rounded-box">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl color-info">Todo App</a>
+          <a href="/#" className="btn btn-ghost normal-case text-xl color-info">Todo App</a>
         </div>
         <div className="flex-none">
           <div className="dropdown dropdown-end">
@@ -98,10 +98,10 @@ const Todos = () => {
                   <span className="font-semibold">{element.todo}</span>
                 </div>
                 <div className="flex-none font-bold">
-                  <button onClick={() => { doneTodo(element.ts) }} className="btn btn-sm">
+                  <button onClick={() => { doneTodo(element.ts) }} className="btn btn-sm btn-success">
                     {element.done ? <i className="bi bi-x-circle"></i> : <i className="bi bi-check-circle"></i>}
                   </button>
-                  <button onClick={() => { deleteTodo(element.ts) }} className="btn btn-sm">
+                  <button onClick={() => { deleteTodo(element.ts) }} className="btn btn-sm btn-error">
                     <i className="bi bi-trash3"></i>
                   </button>
                 </div>
