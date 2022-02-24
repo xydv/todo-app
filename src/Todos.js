@@ -1,19 +1,62 @@
 import React, { useState, useEffect } from "react";
 const Todos = () => {
-  const [todos, setTodos] = useState([]);
-  useEffect(() => {
-    setTodos(JSON.parse(localStorage.getItem("todos") || "[]"));
-  }, []);
   const [text, setText] = useState("");
-  const handleChange = (event) => {
-    setText(event.target.value)
-  }
+  const [todos, setTodos] = useState([]);
+  const [state, setState] = useState(0);
+  // Copy Of todos
+  let todoss = todos;
+  // Get Todos From Localstorage And Rerender When state Changes
+  useEffect(() => { setTodos(JSON.parse(localStorage.getItem("todos") || "[]")); }, [state]);
+  // For Text Value
+  const handleChange = (event) => { setText(event.target.value) };
+  // If User Press Enter
   const keyPressed = (event) => {
     if (event.key === "Enter") {
-      todos.unshift({ ts: Date.now(), todo: text, done: false });
-      localStorage.setItem("todos", JSON.stringify(todos));
-      setText("");
+      // If No Text
+      if (!text) {
+        return
+      } else {
+        // Add Todo If Text Is There To todoss
+        todoss.unshift({ ts: Date.now(), todo: text, done: false });
+        //Set todoss to localStorage "todos"
+        localStorage.setItem("todos", JSON.stringify(todoss));
+        // Make Text Field Empty
+        setText("");
+      }
     }
+  }
+  // Clear Storage
+  const clearStorage = () => {
+    // Change state For Re-Render
+    setState(state + 1)
+    // Set todos to Empty array
+    localStorage.setItem("todos", JSON.stringify([]));
+  }
+  // Delete Todo
+  const deleteTodo = (id) => {
+    // Get Index By Id
+    // let dindex = todoss.findIndex(e => e.ts == id);
+    // console.log(dindex)
+    // Set Empty Object
+    todoss = todoss.filter(item => item.ts != id)
+    localStorage.setItem("todos", JSON.stringify(todoss));
+    // Change state For Re-Render
+    setState(state + 1);
+  }
+  // Done
+  const doneTodo = (id) => {
+    // Get Index By Id
+    let tindex = todoss.findIndex(e => e.ts == id);
+    // Change Done Status
+    if (todoss[tindex].done) {
+      todoss[tindex].done = false;
+    } else {
+      todoss[tindex].done = true;
+    }
+    // Set New todoss to Localstorage
+    localStorage.setItem("todos", JSON.stringify(todoss));
+    // Change state For Re-Render
+    setState(state + 1);
   }
   return (
     <>
@@ -25,36 +68,17 @@ const Todos = () => {
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle">
               <div className="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                <span className="badge badge-sm indicator-item">8</span>
+                <i className="bi bi-gear-fill"></i>
               </div>
             </label>
             <div tabIndex="0" className="mt-3 card card-compact w-52 dropdown-content bg-base-100 shadow">
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg text-center">{todos.length} Items</span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">View cart</button>
+                  <button onClick={clearStorage} className="btn btn-primary btn-block">Clear All</button>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="dropdown dropdown-end">
-            <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img src="https://api.lorem.space/image/face?hash=33791" />
-              </div>
-            </label>
-            <ul tabIndex="0" className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul>
           </div>
         </div>
       </div>
@@ -66,17 +90,17 @@ const Todos = () => {
       <div className="container mx-auto">
         {todos.map((element) => {
           return (
-            <div className="my-4" key={element.ts}>
+            <div className="my-4 mx-4" key={element.ts}>
               <div className={`alert shadow-lg alert-${element.done ? "error" : "success"}`}>
                 <div>
-                  {element.done ? <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                  {element.done ? <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /><title>Done</title></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /><title>Undone</title></svg>}
                   <span className="font-semibold">{element.todo}</span>
                 </div>
                 <div className="flex-none font-bold">
-                  <button className="btn btn-sm btn-success">
-                    <i className="bi bi-pencil"></i>
+                  <button onClick={() => { doneTodo(element.ts) }} className="btn btn-sm">
+                    {element.done ? <i className="bi bi-x-circle"></i> : <i className="bi bi-check-circle"></i>}
                   </button>
-                  <button className="btn btn-sm btn-error">
+                  <button onClick={() => { deleteTodo(element.ts) }} className="btn btn-sm">
                     <i className="bi bi-trash3"></i>
                   </button>
                 </div>
