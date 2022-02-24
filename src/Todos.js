@@ -59,6 +59,20 @@ const Todos = () => {
     // Change state For Re-Render
     setState(state + 1);
   }
+  // Export
+  const exportTodos = () => {
+    let txt = `Export Of Todos From ${window.location.hostname}\n--------------------------------------------------\n`;
+    Array.from(todos).forEach((e) => {
+      txt += `${e.done ? "✅" : "❌"} - ${e.todo}\n--------------------------------------------------\n`;
+    })
+    txt += `Made With ❤ By CodeWithAadi\n https://aditya.is-a.dev`
+    const element = document.createElement("a");
+    const file = new Blob([txt], { type: "text/plain;charset=utf-8" });
+    element.href = URL.createObjectURL(file);
+    element.download = "Todo.txt";
+    document.body.appendChild(element)
+    element.click();
+  }
   return (
     <>
       <div className="navbar bg-base-100 shadow-xl rounded-box">
@@ -77,6 +91,7 @@ const Todos = () => {
                 <span className="font-bold text-lg text-center">{todos.length} Items</span>
                 <div className="card-actions">
                   <button onClick={clearStorage} className="btn btn-error btn-block">Clear All</button>
+                  <button onClick={exportTodos} className="btn btn-error btn-block">Export</button>
                 </div>
               </div>
             </div>
@@ -92,7 +107,7 @@ const Todos = () => {
         {todos.map((element) => {
           return (
             <div className="my-4 mx-4" key={element.ts}>
-              <div className={`alert shadow-lg alert-${element.done ? "error" : "success"}`}>
+              <div className={`alert shadow-lg alert-${element.done ? "success" : "error"}`}>
                 <div>
                   {element.done ? <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /><title>Done</title></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /><title>Undone</title></svg>}
                   <span className="font-semibold">{element.todo}</span>
