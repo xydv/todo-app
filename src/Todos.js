@@ -65,7 +65,7 @@ const Todos = () => {
     Array.from(todos).forEach((e) => {
       txt += `${e.done ? "✅" : "❌"} - ${e.todo}\n--------------------------------------------------\n`;
     })
-    txt += `Made With ❤ By CodeWithAadi\n https://aditya.is-a.dev`
+    txt += `Made With ❤ By CodeWithAadi\nhttps://aditya.is-a.dev`
     const element = document.createElement("a");
     const file = new Blob([txt], { type: "text/plain;charset=utf-8" });
     element.href = URL.createObjectURL(file);
