@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.1ae6fc68.css","mappings":"wEAEA,KACE,2BACF","sources":["styles.css"],"sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Acme&display=swap\");\n\nbody {\n  font-family: \"Acme\", sans-serif;\n}\n"],"names":[],"sourceRoot":""}
