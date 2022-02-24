@@ -1,4 +1,3 @@
-import './App.css';
 import Navbar from './Navbar';
 import Todos from './Todos';
 

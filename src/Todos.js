@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Todo from "./Todo";
 const Todos = () => {
   const [todos, setTodos] = useState([]);
   useEffect(() => {
@@ -27,7 +26,20 @@ const Todos = () => {
         {todos.map((element) => {
           return (
             <div className="my-4" key={element.ts}>
-              <Todo text={element.todo} />
+              <div className="alert shadow-lg alert-success">
+                <div>
+                  <i className="bi bi-check-circle font-bold"></i>
+                  <span className="font-semibold">{element.todo}</span>
+                </div>
+                <div className="flex-none font-bold">
+                  <button className="btn btn-sm btn-success">
+                    <i className="bi bi-pencil"></i>
+                  </button>
+                  <button className="btn btn-sm btn-error">
+                    <i className="bi bi-trash3"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           )
         })}
